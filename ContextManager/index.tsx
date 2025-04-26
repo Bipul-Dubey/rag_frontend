@@ -12,6 +12,9 @@ interface DocumentData {
   user_id: string;
   filename: string;
   updated_at?: string;
+  queries_used_today?: number;
+  queries_left_today?: number;
+  is_query_left?: boolean;
 }
 
 export interface IMessage {
@@ -57,6 +60,9 @@ export const DocumentProvider = ({ children }: { children: ReactNode }) => {
           _id: data?.mongo_id,
           updated_at: data?.uploaded_at,
           user_id: userId,
+          is_query_left: data?.is_query_left ?? false,
+          queries_used_today: data?.queries_used_today ?? 0,
+          queries_left_today: data?.queries_left_today ?? 0,
         });
       } catch (error) {
         console.log("Error: ", error);

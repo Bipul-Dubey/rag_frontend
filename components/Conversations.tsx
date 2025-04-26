@@ -1,6 +1,7 @@
 import { IMessage, useDocumentContext } from "@/ContextManager";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 const Message = (props: IMessage) => {
   const { message, sender } = props;
@@ -37,9 +38,11 @@ const Message = (props: IMessage) => {
         <div
           className={`${
             isUser ? "bg-emerald-200" : "bg-emerald-100"
-          } p-2 px-3 rounded-xl max-w-[70%] text-left`}
+          } p-2 px-3 rounded-xl max-w-[70%] text-left break-words`}
         >
-          <p className="text-sm font-medium text-black text-left ">{message}</p>
+          <div className="text-sm font-medium text-black text-left">
+            <ReactMarkdown>{message}</ReactMarkdown>
+          </div>
         </div>
       </div>
     </div>
@@ -70,7 +73,8 @@ const Loader = ({ loading }: { loading: boolean }) => {
 };
 
 const Conversations = () => {
-  const { conversations, addMessage, document } = useDocumentContext();
+  const { conversations, addMessage, document, setDocument } =
+    useDocumentContext();
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -104,6 +108,17 @@ const Conversations = () => {
         }
       );
       const data = await resp.json();
+      if (data) {
+        setDocument({
+          _id: document?._id ?? "",
+          filename: document?.filename ?? "",
+          user_id: document?.user_id ?? "",
+          updated_at: document?.user_id ?? "",
+          queries_left_today: data?.queries_left_today,
+          queries_used_today: data?.queries_used_today,
+          is_query_left: data?.is_query_left ?? false,
+        });
+      }
       if (data?.answer) {
         addMessage({
           message: data.answer,
@@ -159,7 +174,7 @@ const Conversations = () => {
         <div className="flex items-center space-x-2">
           <input
             className="flex-1 px-4 py-2 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={currentMessage ?? ""}
+            value={currentMessage || ""}
             onChange={(e) => setCurrentMessage(e.target.value)}
             type="text"
             placeholder="Type your message..."
@@ -171,14 +186,21 @@ const Conversations = () => {
             }}
           />
           <button
+            disabled={!currentMessage.trim() || !document?.is_query_left}
             onClick={handleSendMessage}
-            className="p-2 rounded-xl border border-gray-600 text-white bg-transparent hover:bg-gray-700 active:bg-gray-800 transition-colors duration-150 flex items-center justify-center"
+            className={`p-2 rounded-xl border border-gray-600 text-white bg-transparent hover:bg-gray-700 active:bg-gray-800 transition-colors duration-150 flex items-center justify-center
+    ${
+      !currentMessage.trim() || !document?.is_query_left
+        ? "opacity-50 cursor-not-allowed"
+        : ""
+    }
+  `}
           >
             <Image
-              height={6}
-              width={6}
+              height={24}
+              width={24}
               src="/send.svg"
-              alt="send"
+              alt="Send"
               className="h-6 w-6 rotate-[-40deg]"
             />
           </button>
