@@ -1,4 +1,5 @@
 import { useDocumentContext } from "@/ContextManager";
+import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -7,7 +8,8 @@ const FileUpload: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const { document, clearMessages } = useDocumentContext();
+  const { userId } = useAuth();
+  const { document, clearMessages, setDocument } = useDocumentContext();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -38,6 +40,12 @@ const FileUpload: React.FC = () => {
         setMessage("Upload successful!");
         setSelectedFile(null);
         setIsOpen(false);
+        setDocument({
+          _id: "",
+          filename: data?.filename,
+          user_id: userId!,
+          updated_at: data?.updated_at,
+        });
       } else {
         setMessage(data.error || "Upload failed");
       }
