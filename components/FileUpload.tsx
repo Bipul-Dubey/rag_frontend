@@ -24,7 +24,7 @@ const FileUpload: React.FC = () => {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("user_id", document?.user_id!);
+    formData.append("user_id", document?.user_id ?? userId ?? "");
 
     try {
       const res = await fetch(
@@ -43,7 +43,7 @@ const FileUpload: React.FC = () => {
         setDocument({
           _id: "",
           filename: data?.filename,
-          user_id: userId!,
+          user_id: userId ?? "",
           updated_at: data?.updated_at,
         });
       } else {
