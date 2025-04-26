@@ -26,7 +26,7 @@ export default function RagLayout({
     if (isSignedIn === false) {
       router.push("/");
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, router]);
 
   if (isSignedIn === undefined) return <Loader />;
 
