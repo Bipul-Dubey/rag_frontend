@@ -2,7 +2,6 @@
 import Header from "@/components/Header";
 import { DocumentProvider } from "@/ContextManager";
 import { useAuth } from "@clerk/nextjs";
-import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 

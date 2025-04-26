@@ -1,10 +1,13 @@
+import Image from "next/image";
 import React from "react";
 
 const NoFile = () => {
   return (
     <div className="flex flex-col flex-1 h-full min-h-0 justify-center items-center">
       <div className="bg-gray-700 p-6 rounded-2xl shadow-lg max-w-[300px] flex flex-col items-center justify-center">
-        <img
+        <Image
+          height={20}
+          width={20}
           src="/upload.svg"
           alt="Upload Icon"
           className="w-16 h-16 mb-4 animate-bounce"

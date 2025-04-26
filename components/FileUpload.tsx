@@ -1,5 +1,5 @@
 import { useDocumentContext } from "@/ContextManager";
-import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const FileUpload: React.FC = () => {
@@ -60,7 +60,7 @@ const FileUpload: React.FC = () => {
         } border-[3px]`}
         title={document?.filename ? document?.filename : "Upload Document"}
       >
-        <img src="/upload.svg" alt="upload" />
+        <Image width={20} height={20} src="/upload.svg" alt="upload" />
       </button>
 
       {/* Modal */}
@@ -91,7 +91,13 @@ const FileUpload: React.FC = () => {
                   htmlFor="file-input"
                   className="cursor-pointer flex flex-col items-center gap-2"
                 >
-                  <img src="/upload.svg" alt="upload" className="h-8" />
+                  <Image
+                    width={30}
+                    height={30}
+                    src="/upload.svg"
+                    alt="upload"
+                    className="h-8"
+                  />
 
                   <span className="text-gray-400 text-sm">
                     {selectedFile ? "Change File" : "Click to upload"}

@@ -1,4 +1,5 @@
 import { IMessage, useDocumentContext } from "@/ContextManager";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 const Message = (props: IMessage) => {
@@ -16,9 +17,21 @@ const Message = (props: IMessage) => {
       >
         <div className="w-6 h-6 text-gray-500">
           {isUser ? (
-            <img src="/user.svg" alt="user" className="h-7" />
+            <Image
+              height={22}
+              width={22}
+              src="/user.svg"
+              alt="user"
+              className="h-7"
+            />
           ) : (
-            <img src={"/bot.svg"} alt="bot" className="h-7" />
+            <Image
+              height={22}
+              width={22}
+              src={"/bot.svg"}
+              alt="bot"
+              className="h-7"
+            />
           )}
         </div>
         <div
@@ -38,7 +51,13 @@ const Loader = ({ loading }: { loading: boolean }) => {
     <>
       {loading ? (
         <div className="flex items-center justify-start space-x-3">
-          <img src="/bot.svg" alt="bot" className="h-6 w-6" />
+          <Image
+            height={6}
+            width={6}
+            src="/bot.svg"
+            alt="bot"
+            className="h-6 w-6"
+          />
           <div className="flex items-center space-x-1">
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:0.1s]" />
@@ -121,7 +140,13 @@ const Conversations = () => {
           </div>
         ) : (
           <div className="text-center text-gray-400 mt-20 flex flex-col items-center text-lg">
-            <img src="/logo.png" alt="logo" className="h-16 w-50" />
+            <Image
+              height={20}
+              width={60}
+              src="/logo.png"
+              alt="logo"
+              className="h-16 w-50"
+            />
             <h2 className="mt-5 text-1xl">
               How can i help you with your docs?
             </h2>
@@ -149,7 +174,9 @@ const Conversations = () => {
             onClick={handleSendMessage}
             className="p-2 rounded-xl border border-gray-600 text-white bg-transparent hover:bg-gray-700 active:bg-gray-800 transition-colors duration-150 flex items-center justify-center"
           >
-            <img
+            <Image
+              height={6}
+              width={6}
               src="/send.svg"
               alt="send"
               className="h-6 w-6 rotate-[-40deg]"
