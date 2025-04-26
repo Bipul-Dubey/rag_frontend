@@ -46,6 +46,7 @@ const FileUpload: React.FC = () => {
           user_id: userId ?? "",
           updated_at: data?.updated_at,
         });
+        localStorage.removeItem("conversations");
       } else {
         setMessage(data.error || "Upload failed");
       }
