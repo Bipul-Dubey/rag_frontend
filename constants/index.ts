@@ -1,0 +1,1 @@
+export const APP_URL = "https://knowyourdocsv2.netlify.app/"

@@ -1,4 +1,5 @@
 "use client";
+import LayoutWrapper from "@/components/rag/layoutwrapper";
 import Loader from "@/components/ui/Loader";
 import { PATHS } from "@/constants/paths";
 import { useAuth } from "@clerk/nextjs";
@@ -19,5 +20,9 @@ export default function RagLayout({
   }, [isSignedIn, router]);
 
   if (isSignedIn === undefined) return <Loader />;
-  return <div className="bg-[#010415] min-h-screen">{children}</div>;
+  return (
+    <div className="bg-[#020515] min-h-screen">
+      <LayoutWrapper>{children}</LayoutWrapper>
+    </div>
+  );
 }

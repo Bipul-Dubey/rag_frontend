@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import { APP_URL } from "@/constants";
 
 export const metadata: Metadata = {
   title: "KnowYourDocs – AI Document Assistant",
@@ -18,19 +19,19 @@ export const metadata: Metadata = {
     "Doc chatbot",
     "Voice document assistant",
   ],
-  authors: [{ name: "KnowYourDocs Team", url: "https://knowyourdocs.app" }],
+  authors: [{ name: "KnowYourDocs Team", url: APP_URL }],
   creator: "KnowYourDocs",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/shortcut-icon.png",
     apple: "/apple-touch-icon.png",
   },
-  metadataBase: new URL("https://knowyourdocs.app"),
+  metadataBase: new URL(APP_URL),
   openGraph: {
     title: "KnowYourDocs – Upload & Chat with Your Documents",
     description:
       "Interact with your PDFs, Word files, and text documents using smart AI chat. Supports voice, RAG, and multi-document understanding.",
-    url: "https://knowyourdocs.app",
+    url: APP_URL,
     siteName: "KnowYourDocs",
     images: [
       {
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://knowyourdocs.app",
+    canonical: APP_URL,
   },
 };
 
