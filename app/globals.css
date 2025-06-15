@@ -30,8 +30,7 @@
     --info: #0ea5e9; /* Sky-500 */
   }
 
-  .dark,
-  .dark-layout {
+  .dark {
     /* Base */
     --background: #0a0a0a;
     --foreground: #f8fafc;
