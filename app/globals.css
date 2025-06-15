@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Base */
+    --background: #ffffff;
+    --foreground: #0f172a;
+    --card: #f9fafb;
+    --border: #e2e8f0;
+    --shadow: rgba(0, 0, 0, 0.05);
+    --muted: #f1f5f9;
+
+    /* Typography */
+    --text-heading: #0f172a;
+    --text-body: #1e293b;
+    --text-muted: #64748b;
+
+    /* Primary */
+    --primary: #3b82f6; /* Blue-500 */
+    --primary-hover: #2563eb; /* Blue-600 */
+
+    /* Secondary */
+    --secondary: #6366f1; /* Indigo-500 */
+    --secondary-hover: #4f46e5; /* Indigo-600 */
+
+    /* Status */
+    --success: #10b981; /* Green-500 */
+    --warning: #f59e0b; /* Amber-500 */
+    --error: #ef4444; /* Red-500 */
+    --info: #0ea5e9; /* Sky-500 */
+  }
+
+  .dark,
+  .dark-layout {
+    /* Base */
+    --background: #0a0a0a;
+    --foreground: #f8fafc;
+    --card: #1e293b;
+    --border: #334155;
+    --shadow: rgba(255, 255, 255, 0.05);
+    --muted: #1e293b;
+
+    /* Typography */
+    --text-heading: #f1f5f9;
+    --text-body: #cbd5e1;
+    --text-muted: #94a3b8;
+
+    /* Primary */
+    --primary: #60a5fa; /* Blue-400 */
+    --primary-hover: #3b82f6; /* Blue-500 */
+
+    /* Secondary */
+    --secondary: #818cf8; /* Indigo-400 */
+    --secondary-hover: #6366f1; /* Indigo-500 */
+
+    /* Status */
+    --success: #34d399; /* Green-400 */
+    --warning: #fbbf24; /* Amber-400 */
+    --error: #f87171; /* Red-400 */
+    --info: #38bdf8; /* Sky-400 */
+  }
+
+  html,
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
