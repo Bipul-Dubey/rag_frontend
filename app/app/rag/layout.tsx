@@ -4,7 +4,7 @@ import Loader from "@/components/ui/Loader";
 import { PATHS } from "@/constants/paths";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function RagLayout({
   children,
