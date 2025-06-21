@@ -21,6 +21,18 @@ const mockFiles: DocumentFile[] = [
     size: 1024,
     type: "text/plain",
   },
+  {
+    id: "4",
+    name: "notes.txt",
+    size: 1024,
+    type: "text/plain",
+  },
+  {
+    id: "5",
+    name: "notes.txt",
+    size: 1024,
+    type: "text/plain",
+  },
 ];
 
 const DocumentItems: React.FC = () => {
