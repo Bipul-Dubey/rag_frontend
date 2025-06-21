@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Typography } from "./Typography";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface PageHeaderProps {
   children: React.ReactNode;
@@ -18,7 +19,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   title,
 }) => {
   return (
-    <div>
+    <ScrollArea className="max-h-[calc(100vh-48px)] w-full overflow-y-auto p-3">
       <div
         className={cn(
           "flex items-center justify-between border-b pb-3 mb-3 bg-background",
@@ -32,7 +33,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         {right && <div>{right}</div>}
       </div>
       {children}
-    </div>
+    </ScrollArea>
   );
 };
 
