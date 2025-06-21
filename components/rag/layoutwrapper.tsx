@@ -2,6 +2,7 @@ import React from "react";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "../app-sidebar";
 import { Separator } from "../ui/separator";
+import { ScrollArea } from "../ui/scroll-area";
 
 const LayoutWrapper = ({
   children,
@@ -22,7 +23,9 @@ const LayoutWrapper = ({
             <h3>KnowYourDocs</h3>
           </div>
         </header>
-        {children}
+        <ScrollArea className="max-h-[calc(100vh-48px)] w-full overflow-y-auto p-3">
+          {children}
+        </ScrollArea>
       </SidebarInset>
     </SidebarProvider>
   );

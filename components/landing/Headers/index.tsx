@@ -8,7 +8,7 @@ const Headers = () => {
     <header className="w-full fixed top-0 z-50 bg-transparent text-white shadow-sm">
       <div className="p-2 min-h-fit mx-10 flex justify-between items-center">
         <div>
-          <Image src={"/logo.png"} alt="KnowYourDocs" width={110} height={50} />
+          <Image src={"/logo.png"} alt="KnowYourDocs" width={130} height={50} />
         </div>
         <HomeButton />
         <GetStartedButton />

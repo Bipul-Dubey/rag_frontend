@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   creator: "KnowYourDocs",
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/shortcut-icon.png",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
   metadataBase: new URL(APP_URL),
   openGraph: {
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
     siteName: "KnowYourDocs",
     images: [
       {
-        url: "/og-image.png",
+        url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "KnowYourDocs Chat UI",
+        alt: "KnowYourDocs Logo",
       },
     ],
     locale: "en_US",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: "KnowYourDocs – AI Chat for Your Documents",
     description:
       "Upload, manage, and chat with documents using AI. Ask questions, get answers, and even use voice.",
-    images: ["/og-image.png"],
+    images: ["/logo.png"],
     creator: "@knowyourdocs",
   },
   robots: {

@@ -16,26 +16,6 @@ import { SidebarHeaderUI } from "./SidebarHeaderUI";
 
 const data = {
   navMain: [
-    // {
-    //   title: "Playground",
-    //   url: "#",
-    //   icon: SquareTerminal,
-    //   isActive: true,
-    //   items: [
-    //     {
-    //       title: "History",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Starred",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Settings",
-    //       url: PATHS.RAG_DOCUMENTS,
-    //     },
-    //   ],
-    // },
     {
       title: "Manage Docs",
       url: PATHS.RAG_DOCUMENTS,

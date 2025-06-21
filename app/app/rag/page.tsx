@@ -1,7 +1,7 @@
 import React from "react";
 
 const RagDashboard = () => {
-  return <div>RagDashboard</div>;
+  return <div className="h-20000">RagDashboard</div>;
 };
 
 export default RagDashboard;
