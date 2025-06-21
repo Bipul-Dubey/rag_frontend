@@ -1,6 +1,6 @@
 "use client";
 import LayoutWrapper from "@/components/rag/layoutwrapper";
-import Loader from "@/components/ui/Loader";
+import Loader from "@/components/common/Loader";
 import { PATHS } from "@/constants/paths";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";

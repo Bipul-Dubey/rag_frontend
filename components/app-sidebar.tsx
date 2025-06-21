@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { BookOpen } from "lucide-react";
+import { BookOpen, MessageSquare } from "lucide-react";
 import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
@@ -20,6 +20,12 @@ const data = {
       title: "Manage Docs",
       url: PATHS.RAG_DOCUMENTS,
       icon: BookOpen,
+      items: [],
+    },
+    {
+      title: "New Chat",
+      url: PATHS.RAG_CHATS,
+      icon: MessageSquare,
       items: [],
     },
   ],
