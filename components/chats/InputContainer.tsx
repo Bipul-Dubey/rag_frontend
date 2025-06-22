@@ -10,7 +10,7 @@ const InputContainer = () => {
       {/* input */}
       <div className="flex-1">
         <Textarea
-          className="border-none rounded-b-none resize-none max-h-[60vh] overflow-y-auto shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="border-none rounded-b-none resize-none max-h-[200px] overflow-y-auto shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
           style={{ height: "auto", backgroundColor: "transparent" }}
         />
       </div>
