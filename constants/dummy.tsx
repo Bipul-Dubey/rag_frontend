@@ -1,86 +1,261 @@
 import { IMessage } from "@/types";
 
 export const Messages: IMessage[] = [
-  { id: 1, text: "Hello, how can I help you today?", type: "bot" },
-  { id: 2, text: "**I need help** with markdown syntax.", type: "user" },
   {
-    id: 3,
-    text: "Sure! Here’s how you write a heading:\n\n# Heading 1",
-    type: "bot",
+    id: "msg_001",
+    type: "user",
+    text: "Can you show me a code example in Python?",
   },
-  { id: 4, text: "Can I see a list example?", type: "user" },
-  { id: 5, text: "Yes!\n\n- Item 1\n- Item 2\n- Item 3", type: "bot" },
-  { id: 6, text: "What about inline code?", type: "user" },
   {
-    id: 7,
-    text: "You can use backticks like this: `let x = 10;`",
+    id: "msg_002",
     type: "bot",
+    text: "```python\nprint('Hello, world!')\n```",
   },
-  { id: 8, text: "Nice. How do I bold text?", type: "user" },
-  { id: 9, text: "Use double asterisks: `**bold text**`", type: "bot" },
-  { id: 10, text: "Thanks!", type: "user" },
-  { id: 11, text: "You're welcome! 😊", type: "bot" },
-  { id: 12, text: "Can you show me a JS function?", type: "user" },
+
   {
-    id: 13,
-    text: "```js\nfunction greet() {\n  return 'Hello';\n}\n```",
-    type: "bot",
+    id: "msg_003",
+    type: "user",
+    text: "Give me a JSON schema for a user object.",
   },
-  { id: 14, text: "How about a Python loop?", type: "user" },
   {
-    id: 15,
-    text: "```python\nfor i in range(5):\n    print(i)\n```",
+    id: "msg_004",
     type: "bot",
+    text: '```json\n{ "name": "John", "email": "john@example.com" }\n```',
   },
-  { id: 16, text: "Can markdown support images?", type: "user" },
-  { id: 17, text: "Yes! `![alt text](image-url)`", type: "bot" },
-  { id: 18, text: "# Heading Example", type: "user" },
-  { id: 19, text: "That's a valid H1 heading!", type: "bot" },
-  { id: 20, text: "Create a checklist", type: "user" },
-  { id: 21, text: "- [x] Task 1\n- [ ] Task 2", type: "bot" },
-  { id: 22, text: "Nice, what’s a blockquote?", type: "user" },
-  { id: 23, text: "> This is a blockquote", type: "bot" },
-  { id: 24, text: "Make a table for me.", type: "user" },
+
   {
-    id: 25,
-    text: "| Name | Age |\n|------|-----|\n| John | 25  |",
-    type: "bot",
+    id: "msg_005",
+    type: "user",
+    text: "Send a sample YAML config for a service.",
   },
-  { id: 26, text: "How to add links?", type: "user" },
-  { id: 27, text: "[Click here](https://example.com)", type: "bot" },
-  { id: 28, text: "Do you support emoji?", type: "user" },
-  { id: 29, text: "Yes 😄", type: "bot" },
-  { id: 30, text: "Can I mix markdown?", type: "user" },
-  { id: 31, text: "**Bold** and `code` and - lists", type: "bot" },
-  { id: 32, text: "How to italicize text?", type: "user" },
-  { id: 33, text: "Use `*italic*` or `_italic_`", type: "bot" },
-  { id: 34, text: "Cool, what’s strikethrough?", type: "user" },
-  { id: 35, text: "Use `~~strikethrough~~`", type: "bot" },
-  { id: 36, text: "Show multi-language snippet", type: "user" },
   {
-    id: 37,
-    text: "```js\nlet x = 10;\n```\n```python\nx = 10\n```",
+    id: "msg_006",
     type: "bot",
+    text: "```yaml\nservice:\n  name: my-service\n  port: 8080\n```",
   },
-  { id: 38, text: "How about nested lists?", type: "user" },
-  { id: 39, text: "- Item 1\n  - Subitem 1\n  - Subitem 2", type: "bot" },
-  { id: 40, text: "Display horizontal line", type: "user" },
-  { id: 41, text: "---", type: "bot" },
-  { id: 42, text: "Can I highlight text?", type: "user" },
+
   {
-    id: 43,
-    text: "Markdown doesn't support highlights natively, but you can use HTML: `<mark>highlight</mark>`",
-    type: "bot",
+    id: "msg_007",
+    type: "user",
+    text: "Explain using a Markdown table.",
   },
-  { id: 44, text: "How to escape characters?", type: "user" },
-  { id: 45, text: "Use backslash: `\\*not italic\\*`", type: "bot" },
-  { id: 46, text: "Is there math support?", type: "user" },
   {
-    id: 47,
-    text: "Only in markdown variants like KaTeX/MathJax:\n\n`$E=mc^2$`",
+    id: "msg_008",
     type: "bot",
+    text: "| Key | Value |\n|-----|--------|\n| A   | Alpha  |\n| B   | Beta   |",
   },
-  { id: 48, text: "Thanks for all the help!", type: "user" },
-  { id: 49, text: "Anytime! 🚀", type: "bot" },
-  { id: 50, text: "Bye!", type: "user" },
+
+  {
+    id: "msg_009",
+    type: "user",
+    text: "What’s the difference between map and forEach in JS?",
+  },
+  {
+    id: "msg_010",
+    type: "bot",
+    text: "```js\nconst arr = [1, 2, 3];\narr.map(x => x * 2); // returns new array\narr.forEach(x => console.log(x)); // executes side effects\n```",
+  },
+
+  {
+    id: "msg_011",
+    type: "user",
+    text: "Upload an image of a data pipeline.",
+  },
+  {
+    id: "msg_012",
+    type: "bot",
+    text: "![Pipeline](https://example.com/pipeline.png)",
+  },
+
+  {
+    id: "msg_013",
+    type: "user",
+    text: "Can you generate a chart or graph?",
+  },
+  {
+    id: "msg_014",
+    type: "bot",
+    text: "![Chart](https://example.com/chart.png)",
+  },
+
+  {
+    id: "msg_015",
+    type: "user",
+    text: "Give me a plain list of commands.",
+  },
+  {
+    id: "msg_016",
+    type: "bot",
+    text: "- git clone\n- git commit\n- git push",
+  },
+
+  {
+    id: "msg_017",
+    type: "user",
+    text: "Give me the API response as plain text.",
+  },
+  {
+    id: "msg_018",
+    type: "bot",
+    text: "{ status: 200, message: 'OK' }",
+  },
+
+  {
+    id: "msg_019",
+    type: "user",
+    text: "Summarize this document in bullet points.",
+  },
+  {
+    id: "msg_020",
+    type: "bot",
+    text: "- Point A\n- Point B\n- Point C",
+  },
+
+  {
+    id: "msg_021",
+    type: "user",
+    text: "Give me an audio clip explaining this.",
+  },
+  {
+    id: "msg_022",
+    type: "bot",
+    text: "[Audio](https://example.com/clip.mp3)",
+  },
+
+  {
+    id: "msg_023",
+    type: "user",
+    text: "Send a video demo of this feature.",
+  },
+  {
+    id: "msg_024",
+    type: "bot",
+    text: "[Video](https://example.com/demo.mp4)",
+  },
+
+  { id: "msg_025", type: "user", text: "Generate HTML content." },
+  {
+    id: "msg_026",
+    type: "bot",
+    text: "```html\n<div>Hello, World!</div>\n```",
+  },
+
+  { id: "msg_027", type: "user", text: "Give me a CSV format." },
+  {
+    id: "msg_028",
+    type: "bot",
+    text: "Name,Age,City\nAlice,30,London\nBob,25,NYC",
+  },
+
+  {
+    id: "msg_029",
+    type: "user",
+    text: "What’s the current time in UTC?",
+  },
+  {
+    id: "msg_030",
+    type: "bot",
+    text: "🕒 Current UTC time: 2025-06-25T18:30:00Z",
+  },
+
+  {
+    id: "msg_031",
+    type: "user",
+    text: "Simulate a command line session.",
+  },
+  {
+    id: "msg_032",
+    type: "bot",
+    text: "```bash\n$ ls -la\n$ cd /var/www\n```",
+  },
+
+  {
+    id: "msg_033",
+    type: "user",
+    text: "Show a math formula using LaTeX.",
+  },
+  { id: "msg_034", type: "bot", text: "$$E=mc^2$$" },
+
+  {
+    id: "msg_035",
+    type: "user",
+    text: "Write a SQL query to fetch users.",
+  },
+  {
+    id: "msg_036",
+    type: "bot",
+    text: "```sql\nSELECT * FROM users WHERE active = 1;\n```",
+  },
+
+  {
+    id: "msg_037",
+    type: "user",
+    text: "Give me a C++ class definition.",
+  },
+  {
+    id: "msg_038",
+    type: "bot",
+    text: "```cpp\nclass Person {\n public:\n  string name;\n};\n```",
+  },
+
+  {
+    id: "msg_039",
+    type: "user",
+    text: "Make a checklist for deployment.",
+  },
+  {
+    id: "msg_040",
+    type: "bot",
+    text: "- [x] Lint\n- [ ] Unit Tests\n- [ ] Build\n- [ ] Deploy",
+  },
+
+  {
+    id: "msg_041",
+    type: "user",
+    text: "Render markdown heading levels.",
+  },
+  { id: "msg_042", type: "bot", text: "# H1\n## H2\n### H3" },
+
+  { id: "msg_043", type: "user", text: "Can you send me a file?" },
+  {
+    id: "msg_044",
+    type: "bot",
+    text: "[Download PDF](https://example.com/report.pdf)",
+  },
+
+  {
+    id: "msg_045",
+    type: "user",
+    text: "Render a bordered table with emojis.",
+  },
+  {
+    id: "msg_046",
+    type: "bot",
+    text: "| Emoji | Meaning |\n|-------|---------|\n| 🚀    | Launch  |\n| 🧠    | Brain   |",
+  },
+
+  {
+    id: "msg_047",
+    type: "user",
+    text: "Simulate a JSON API POST request.",
+  },
+  {
+    id: "msg_048",
+    type: "bot",
+    text: '```http\nPOST /api/user\nContent-Type: application/json\n\n{ "name": "Alice" }\n```',
+  },
+
+  { id: "msg_049", type: "user", text: "Write a GraphQL query." },
+  {
+    id: "msg_050",
+    type: "bot",
+    text: "```graphql\nquery {\n  user(id: 1) {\n    name\n  }\n}\n```",
+  },
+
+  { id: "msg_051", type: "user", text: "Show me Terraform for EC2." },
+  {
+    id: "msg_052",
+    type: "bot",
+    text: '```hcl\nresource "aws_instance" "web" {\n  ami = "ami-0abcd"\n}\n```',
+  },
 ];

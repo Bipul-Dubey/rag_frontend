@@ -1,23 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-
-type Message = {
-  id: number;
-  type: "user" | "bot";
-  text: string;
-};
+import { IMessage } from "@/types";
 
 type MessageItemProps = {
-  message: Message;
+  message: IMessage;
 };
 
 const markdownComponents = {
@@ -27,7 +23,8 @@ const markdownComponents = {
     children,
     ...props
   }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) {
-    const language = className?.replace("language-", "") || "bash";
+    const language = className?.replace("language-", "") || "text";
+    const codeContent = String(children).replace(/\n$/, "");
 
     if (inline) {
       return (
@@ -38,32 +35,48 @@ const markdownComponents = {
     }
 
     return (
-      <SyntaxHighlighter
-        language={language}
-        style={oneDark}
-        wrapLongLines
-        customStyle={{
-          borderRadius: "8px",
-          padding: "16px",
-          fontSize: "0.85rem",
-          backgroundColor: "#282c34",
-          overflowX: "auto",
-        }}
-        PreTag="div"
-      >
-        {String(children).trim()}
-      </SyntaxHighlighter>
+      <div className="relative my-4">
+        {/* Language label */}
+        <div className="absolute top-2 left-3 text-xs text-white/60 uppercase z-10">
+          {language}
+        </div>
+
+        {/* Copy Button */}
+        <Button
+          onClick={() => {
+            navigator.clipboard.writeText(codeContent);
+            toast.success("Code copied to clipboard");
+          }}
+          variant="ghost"
+          size="icon"
+          className="absolute top-1 right-1 z-10 h-6 w-6 p-1 text-muted-foreground hover:bg-muted"
+        >
+          <Copy className="h-4 w-4" />
+        </Button>
+
+        <SyntaxHighlighter
+          language={language}
+          style={oneDark}
+          PreTag="pre"
+          wrapLongLines
+          customStyle={{
+            margin: 0,
+            borderRadius: "8px",
+            padding: "1.75rem 1rem 1rem 1rem",
+            fontSize: "0.85rem",
+            backgroundColor: "#282c34",
+            overflowX: "auto",
+          }}
+        >
+          {codeContent}
+        </SyntaxHighlighter>
+      </div>
     );
   },
 };
 
 const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
   const isUser = message.type === "user";
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.text);
@@ -71,39 +84,39 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
   };
 
   return (
-    <div
-      className={`flex px-4 py-2 ${isUser ? "justify-end" : "justify-start"}`}
-    >
-      <Card
-        className={`w-[95%] sm:w-[90%] text-sm rounded-[8px] p-0 whitespace-pre-wrap relative ${
-          isUser
-            ? "bg-muted/20 text-foreground"
-            : "bg-transparent border border-border"
-        }`}
-      >
-        <CardContent className="p-4 prose prose-sm dark:prose-invert max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={markdownComponents}
+    <div className="px-4 py-2">
+      <div className={`flex  ${isUser ? "justify-end" : "justify-start"}`}>
+        <Card
+          className={`w-[95%] sm:w-[90%] text-sm rounded-[8px] p-0 whitespace-pre-wrap relative ${
+            isUser
+              ? "bg-muted/20 text-foreground"
+              : "bg-transparent border border-border"
+          }`}
+        >
+          <CardContent className="p-3 prose prose-sm dark:prose-invert max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={markdownComponents}
+            >
+              {message.text}
+            </ReactMarkdown>
+          </CardContent>
+        </Card>
+      </div>
+      {/* Copy button for bot messages */}
+      {!isUser && (
+        <div className="mt-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6 p-1 text-muted-foreground hover:bg-muted"
+            onClick={handleCopy}
           >
-            {message.text}
-          </ReactMarkdown>
-
-          {/* Bottom-left copy button */}
-          {!isUser && (
-            <div className="mt-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 p-1 text-muted-foreground hover:bg-muted"
-                onClick={handleCopy}
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            <Copy className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
