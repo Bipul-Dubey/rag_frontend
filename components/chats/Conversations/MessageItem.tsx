@@ -21,7 +21,6 @@ const markdownComponents = {
     inline,
     className,
     children,
-    ...props
   }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) {
     const language = className?.replace("language-", "") || "text";
     const codeContent = String(children).replace(/\n$/, "");
