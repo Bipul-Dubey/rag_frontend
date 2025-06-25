@@ -36,12 +36,9 @@ const markdownComponents = {
 
     return (
       <div className="relative my-4">
-        {/* Language label */}
         <div className="absolute top-2 left-3 text-xs text-white/60 uppercase z-10">
           {language}
         </div>
-
-        {/* Copy Button */}
         <Button
           onClick={() => {
             navigator.clipboard.writeText(codeContent);
@@ -83,9 +80,11 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
     toast.success("Message copied to clipboard");
   };
 
+  const referenceLinks = message.referenceLinks || []; // optional field like: [{ label: "Docs", url: "https://..." }]
+
   return (
     <div className="px-4 py-2">
-      <div className={`flex  ${isUser ? "justify-end" : "justify-start"}`}>
+      <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
         <Card
           className={`w-[95%] sm:w-[90%] text-sm rounded-[8px] p-0 whitespace-pre-wrap relative ${
             isUser
@@ -104,19 +103,38 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
           </CardContent>
         </Card>
       </div>
-      {/* Copy button for bot messages */}
-      {!isUser && (
-        <div className="mt-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-6 w-6 p-1 text-muted-foreground hover:bg-muted"
-            onClick={handleCopy}
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
-        </div>
-      )}
+
+      {/* Copy + Reference Links (Always show, position based on isUser) */}
+      <div
+        className={`mt-1 flex items-center gap-2 px-4 ${
+          isUser ? "justify-end" : "justify-start"
+        }`}
+      >
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6 p-1 text-muted-foreground hover:bg-muted"
+          onClick={handleCopy}
+        >
+          <Copy className="h-4 w-4" />
+        </Button>
+
+        {referenceLinks.length > 0 && (
+          <div className="flex gap-2 flex-wrap">
+            {referenceLinks.map((ref, idx) => (
+              <a
+                key={idx}
+                href={ref.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-muted-foreground underline hover:text-primary"
+              >
+                {ref.label || `Ref ${idx + 1}`}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
