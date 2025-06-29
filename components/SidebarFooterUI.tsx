@@ -4,6 +4,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { PATHS } from "@/constants/paths";
 import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import React from "react";
 
@@ -17,8 +18,9 @@ export function SidebarFooterUI() {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <SignedIn>
+          <SignedIn >
             <UserButton
+              afterSignOutUrl={PATHS.LOGIN}
               appearance={{
                 elements: {
                   userButtonAvatarBox: {

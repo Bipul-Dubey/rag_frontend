@@ -7,13 +7,13 @@ import UseCasesSection from "@/components/landing/UseCasesSection";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Headers />
       <HeroSection />
       <HowItWork />
       <UseCasesSection />
       <ContactSection />
       <Footer />
-    </div>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-export const APP_URL = "https://knowyourdocsv2.netlify.app/"
+export const APP_URL = "https://knowyourdocs.netlify.app/"
 
 export const ALLOWED_FILE_TYPES = [
   "application/pdf",
