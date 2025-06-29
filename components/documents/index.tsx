@@ -1,7 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import DocumentItem from "./DocumentItem";
-import { deleteDocument, embedDocument, getDocuments } from "@/services/apis";
+import {
+  deleteDocument,
+  embedDocument,
+  getDocuments,
+  getPreviewUrl,
+} from "@/services/apis";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 import { Typography } from "../common/Typography";
@@ -51,8 +56,11 @@ const DocumentItems: React.FC = () => {
     deleteMutation.mutate(file._id);
   };
 
-  const handleView = (file: IDocument) => {
-    window.open(file.url, "_blank");
+  const handleView = async (file: IDocument) => {
+    const res = await getPreviewUrl(file._id);
+    if (res) {
+      window.open(res, "_blank");
+    }
   };
 
   const handleChat = (file: IDocument) => {

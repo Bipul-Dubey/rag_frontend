@@ -81,6 +81,15 @@ export const embedDocument = async (
   }
 };
 
+export const getPreviewUrl = async (docId: string): Promise<string> => {
+  try {
+    const res = await axios.get(`${apibase}/documents/${docId}/preview-url`);
+    return res.data?.preview_url ?? "";
+  } catch (error) {
+    throw "";
+  }
+};
+
 export const queryDocuments = async (payload: {
   user_id: string;
   query: string;
@@ -100,9 +109,7 @@ export const queryDocuments = async (payload: {
 
 export const getChats = async (userId: string): Promise<ChatList> => {
   try {
-    const res = await axios.get<ChatList>(
-      `${apibase}/chats/chats/${userId}`
-    );
+    const res = await axios.get<ChatList>(`${apibase}/chats/chats/${userId}`);
     return res.data;
   } catch (error: any) {
     throw error?.response?.data || error;
@@ -111,9 +118,7 @@ export const getChats = async (userId: string): Promise<ChatList> => {
 
 export const getChatHistory = async (chatId: string): Promise<ChatHistory> => {
   try {
-    const res = await axios.get<ChatHistory>(
-      `${apibase}/chats/chat/${chatId}`
-    );
+    const res = await axios.get<ChatHistory>(`${apibase}/chats/chat/${chatId}`);
     return res.data;
   } catch (error: any) {
     throw error?.response?.data || error;
@@ -144,9 +149,7 @@ export const getUserStats = async (userId: string): Promise<UserStats> => {
 
 export const getUserDetails = async (userId: string): Promise<UserDetails> => {
   try {
-    const res = await axios.get<UserDetails>(
-      `${apibase}/users/user/${userId}`
-    );
+    const res = await axios.get<UserDetails>(`${apibase}/users/user/${userId}`);
     return res.data;
   } catch (error: any) {
     throw error?.response?.data || error;
