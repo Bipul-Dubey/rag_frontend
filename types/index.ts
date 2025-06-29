@@ -1,13 +1,29 @@
-
-export type TDOCUMENT_STATUS = "pending" | "processing" | "ready" | "failed"
+export type TDOCUMENT_STATUS = "pending" | "processing" | "ready" | "failed";
+export type TMESSAGE_FROM = "user" | "assistant";
 //  ============================ interface ===============
-export interface IMessage  {
-  id: string;
-  type: "user" | "bot";
-  text: string;
-  referenceLinks: { label: string; url: string }[] | null;
-};
+export interface ChatReference {
+  doc_id: string;
+  doc_name: string;
+  doc_url: string;
+  s3_key: string;
+}
 
+export interface IMessage {
+  content: string;
+  references: ChatReference[] | null;
+  timestamp: string;
+  message_id: string;
+  role: TMESSAGE_FROM;
+}
+
+export interface QueryChatResponse {
+  chat_id: string;
+  content: string;
+  references: ChatReference[];
+  timestamp: string;
+  message_id: string;
+  role: TMESSAGE_FROM;
+}
 
 export interface IDocument {
   _id: string;
@@ -35,18 +51,6 @@ export interface DeleteDocumentResponse {
   message: string;
 }
 
-export interface ChatReference {
-  doc_id: string;
-  doc_name: string;
-  doc_url: string;
-}
-
-export interface QueryChatResponse {
-  answer: string;
-  references: ChatReference[];
-  chat_id: string;
-}
-
 export interface ChatListItem {
   chat_id: string;
   created_at: string;
@@ -55,20 +59,12 @@ export interface ChatListItem {
 
 export type ChatList = ChatListItem[];
 
-export interface ChatMessage {
-  message_id: string;
-  role: "user" | "assistant";
-  content: string;
-  timestamp: string;
-  references?: ChatReference[];
-}
-
 export interface ChatHistory {
   chat_id: string;
   user_id: string;
   created_at: string;
   chat_name: string;
-  messages: ChatMessage[];
+  messages: IMessage[];
 }
 
 export interface DeleteResponse {

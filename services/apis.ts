@@ -90,6 +90,15 @@ export const getPreviewUrl = async (docId: string): Promise<string> => {
   }
 };
 
+export const getChatHistory = async (chatId: string): Promise<ChatHistory> => {
+  try {
+    const res = await axios.get<ChatHistory>(`${apibase}/chats/chat/${chatId}`);
+    return res.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const queryDocuments = async (payload: {
   user_id: string;
   query: string;
@@ -110,15 +119,6 @@ export const queryDocuments = async (payload: {
 export const getChats = async (userId: string): Promise<ChatList> => {
   try {
     const res = await axios.get<ChatList>(`${apibase}/chats/chats/${userId}`);
-    return res.data;
-  } catch (error: any) {
-    throw error?.response?.data || error;
-  }
-};
-
-export const getChatHistory = async (chatId: string): Promise<ChatHistory> => {
-  try {
-    const res = await axios.get<ChatHistory>(`${apibase}/chats/chat/${chatId}`);
     return res.data;
   } catch (error: any) {
     throw error?.response?.data || error;

@@ -21,8 +21,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteChat, getChats } from "@/services/apis";
 import Link from "next/link";
 import { PATHS } from "@/constants/paths";
+import { useParams } from "next/navigation";
 
 export function ChatListing() {
+  const { slug: currentChatId } = useParams();
+
   const { isMobile } = useSidebar();
   const { userId } = useAuth();
   const queryClient = useQueryClient();
@@ -52,7 +55,14 @@ export function ChatListing() {
       <SidebarMenu>
         {data?.map((item) => (
           <SidebarMenuItem key={item.chat_id}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton
+              asChild
+              className={
+                item.chat_id === currentChatId
+                  ? "bg-gray-800 text-white"
+                  : undefined
+              }
+            >
               <Link href={`${PATHS.RAG_CHATS}/${item.chat_id}`}>
                 <span>{item.chat_name}</span>
               </Link>

@@ -77,7 +77,7 @@ const DocumentItems: React.FC = () => {
   };
 
   return isLoading ? (
-    <>loadin....</>
+    <>loading....</>
   ) : Array.isArray(data) && data.length > 0 ? (
     <div className="flex flex-wrap gap-4">
       {data.map((file) => (

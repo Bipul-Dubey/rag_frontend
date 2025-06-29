@@ -11,6 +11,7 @@ import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { IMessage } from "@/types";
+import { handleUniqueDocs } from "@/utils";
 
 type MessageItemProps = {
   message: IMessage;
@@ -72,14 +73,14 @@ const markdownComponents = {
 };
 
 const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
-  const isUser = message.type === "user";
+  const isUser = message.role === "user";
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(message.text);
+    navigator.clipboard.writeText(message.content);
     toast.success("Message copied to clipboard");
   };
 
-  const referenceLinks = message.referenceLinks || []; // optional field like: [{ label: "Docs", url: "https://..." }]
+  const referenceLinks = handleUniqueDocs(message.references ?? []) || [];
 
   return (
     <div className="px-4 py-2">
@@ -97,7 +98,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
               rehypePlugins={[rehypeRaw]}
               components={markdownComponents}
             >
-              {message.text}
+              {message.content}
             </ReactMarkdown>
           </CardContent>
         </Card>
@@ -123,12 +124,12 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
             {referenceLinks.map((ref, idx) => (
               <a
                 key={idx}
-                href={ref.url}
+                href={"#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-muted-foreground underline hover:text-primary"
               >
-                {ref.label || `Ref ${idx + 1}`}
+                {ref.doc_name || `Ref ${idx + 1}`}
               </a>
             ))}
           </div>
