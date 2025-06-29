@@ -1,11 +1,10 @@
 "use client";
 
-import { Folder, Forward, MoreHorizontal, Trash2 } from "lucide-react";
+import { MoreHorizontal, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -17,35 +16,47 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-
-const projects = [
-  {
-    name: "Design Engineering",
-    url: "#",
-  },
-  {
-    name: "Sales & Marketing",
-    url: "#",
-  },
-  {
-    name: "Travel",
-    url: "#",
-  },
-];
+import { useAuth } from "@clerk/nextjs";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteChat, getChats } from "@/services/apis";
+import Link from "next/link";
+import { PATHS } from "@/constants/paths";
+import { useCallback } from "react";
 
 export function ChatListing() {
   const { isMobile } = useSidebar();
+  const { userId } = useAuth();
+  const queryClient = useQueryClient();
 
-  return (
+  const { data, isLoading } = useQuery({
+    queryKey: ["chats", userId],
+    queryFn: () => getChats(userId!),
+    enabled: !!userId,
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (chatId: string) => deleteChat(chatId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats", userId] });
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    deleteMutation.mutate(id);
+  };
+
+  return isLoading ? (
+    <>Loading...</>
+  ) : (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Chats</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
+        {data?.map((item) => (
+          <SidebarMenuItem key={item.chat_id}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <span>{item.name}</span>
-              </a>
+              <Link href={`${PATHS.RAG_CHATS}/${item.chat_id}`}>
+                <span>{item.chat_name}</span>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -59,29 +70,29 @@ export function ChatListing() {
                 side={isMobile ? "bottom" : "right"}
                 align={isMobile ? "end" : "start"}
               >
-                <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Forward className="text-muted-foreground" />
                   <span>Share Project</span>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuSeparator /> */}
+                <DropdownMenuItem
+                  onClick={() => {
+                    handleDelete(item.chat_id);
+                  }}
+                >
                   <Trash2 className="text-muted-foreground" />
-                  <span>Delete Project</span>
+                  <span>Delete Chat</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
+        {/* <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <MoreHorizontal className="text-sidebar-foreground/70" />
             <span>More</span>
           </SidebarMenuButton>
-        </SidebarMenuItem>
+        </SidebarMenuItem> */}
       </SidebarMenu>
     </SidebarGroup>
   );
