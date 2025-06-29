@@ -1,15 +1,21 @@
+"use client";
 import { Toaster } from "@/components/ui/sonner";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
-    <Fragment>
-      <Toaster />
-      {children}
-    </Fragment>
+    <QueryClientProvider client={queryClient}>
+      <Fragment>
+        <Toaster />
+        {children}
+      </Fragment>
+    </QueryClientProvider>
   );
 }

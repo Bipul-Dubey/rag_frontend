@@ -20,6 +20,9 @@ import {
   MAX_UPLOAD_FILES,
 } from "@/constants";
 import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { uploadDocument } from "@/services/apis";
 
 const formatSize = (bytes: number) => {
   const sizes = ["Bytes", "KB", "MB", "GB"];
@@ -39,6 +42,18 @@ const getIcon = (type: string) => {
 const DocsActionButton = () => {
   const [open, setOpen] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const { userId } = useAuth();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (file: File) => uploadDocument(userId!, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["documents", userId] });
+      toast.success(`file(s) uploaded.`);
+    },
+    onError: () => {
+      toast.error("File upload failed.");
+    },
+  });
 
   const handleFileAdd = (incomingFiles: File[]) => {
     const validFiles = incomingFiles.filter((file) => {
@@ -94,10 +109,11 @@ const DocsActionButton = () => {
   };
 
   const handleConfirm = () => {
-    console.log("Uploading:", selectedFiles);
-    toast.success(`${selectedFiles.length} file(s) uploaded.`);
     setSelectedFiles([]);
     setOpen(false);
+    if (selectedFiles.length > 0) {
+      mutate(selectedFiles[0]);
+    }
   };
 
   const totalSize = selectedFiles.reduce((acc, file) => acc + file.size, 0);

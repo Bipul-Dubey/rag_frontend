@@ -1,64 +1,86 @@
 "use client";
-import React from "react";
-import DocumentItem, { DocumentFile } from "./DocumentItem";
-
-const mockFiles: DocumentFile[] = [
-  {
-    id: "1",
-    name: "Resume.pdf",
-    size: 204800,
-    type: "application/pdf",
-  },
-  {
-    id: "2",
-    name: "Report.docx",
-    size: 512000,
-    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  },
-  {
-    id: "3",
-    name: "notes.txt",
-    size: 1024,
-    type: "text/plain",
-  },
-  {
-    id: "4",
-    name: "notes.txt",
-    size: 1024,
-    type: "text/plain",
-  },
-  {
-    id: "5",
-    name: "notes.txt",
-    size: 1024,
-    type: "text/plain",
-  },
-];
+import React, { useState } from "react";
+import DocumentItem from "./DocumentItem";
+import { deleteDocument, embedDocument, getDocuments } from "@/services/apis";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@clerk/nextjs";
+import { Typography } from "../common/Typography";
+import { Upload } from "lucide-react";
+import { IDocument } from "@/types";
+import { PATHS } from "@/constants/paths";
+import { useRouter } from "next/navigation";
 
 const DocumentItems: React.FC = () => {
-  const handleView = (file: DocumentFile) => {
-    console.log("View", file);
+  const router = useRouter();
+  const { userId } = useAuth();
+  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { data, isLoading } = useQuery({
+    queryKey: ["documents", userId],
+    queryFn: () => getDocuments(userId!),
+    enabled: !!userId,
+  });
+
+  const embedMutation = useMutation({
+    mutationFn: (docId: string) => embedDocument(docId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["documents", userId] });
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (docId: string) => deleteDocument(docId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["documents", userId] });
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
+
+  const handleTrain = (file: IDocument) => {
+    setLoading(true);
+    embedMutation.mutate(file._id);
   };
 
-  const handleDelete = (file: DocumentFile) => {
-    console.log("Delete", file);
+  const handleDelete = (file: IDocument) => {
+    setLoading(true);
+    deleteMutation.mutate(file._id);
   };
 
-  const handleChat = (file: DocumentFile) => {
-    console.log("Chat", file);
+  const handleView = (file: IDocument) => {
+    window.open(file.url, "_blank");
   };
 
-  return (
+  const handleChat = (file: IDocument) => {
+    router.push(`${PATHS.RAG_CHATS}?docId=${file._id}`);
+  };
+
+  return isLoading ? (
+    <>loadin....</>
+  ) : Array.isArray(data) && data.length > 0 ? (
     <div className="flex flex-wrap gap-4">
-      {mockFiles.map((file) => (
+      {data.map((file) => (
         <DocumentItem
-          key={file.id}
+          key={file._id}
           file={file}
           onView={handleView}
           onDelete={handleDelete}
           onChat={handleChat}
+          onTrain={handleTrain}
+          disableButton={loading}
         />
       ))}
+    </div>
+  ) : (
+    <div className="flex flex-col items-center gap-y-10 mt-10 justify-center">
+      <Upload size={50} />
+      <Typography variant="h2" className="text-center">
+        No Document available, Please upload document(s) to continue
+      </Typography>
     </div>
   );
 };

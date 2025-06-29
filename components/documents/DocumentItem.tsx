@@ -4,6 +4,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
+  Brain,
   Eye,
   File,
   FileCode,
@@ -14,19 +15,16 @@ import {
 import { cn } from "@/lib/utils";
 import CustomTooltip from "../common/CustomTooltip";
 import { Typography } from "../common/Typography";
-
-export type DocumentFile = {
-  id: string;
-  name: string;
-  size: number;
-  type: string;
-};
+import { IDocument, TDOCUMENT_STATUS } from "@/types";
+import { Badge } from "../ui/badge";
 
 interface DocumentItemProps {
-  file: DocumentFile;
-  onView?: (file: DocumentFile) => void;
-  onDelete?: (file: DocumentFile) => void;
-  onChat?: (file: DocumentFile) => void;
+  file: IDocument;
+  onView?: (file: IDocument) => void;
+  onDelete?: (file: IDocument) => void;
+  onChat?: (file: IDocument) => void;
+  onTrain?: (file: IDocument) => void;
+  disableButton: boolean;
 }
 
 const formatSize = (bytes: number) => {
@@ -44,11 +42,23 @@ const getIcon = (type: string) => {
   return <File className="text-muted-foreground" />;
 };
 
+const statusMap: Record<
+  TDOCUMENT_STATUS,
+  { label: string; variant?: "default" | "secondary" | "destructive" }
+> = {
+  pending: { label: "Pending", variant: "default" },
+  processing: { label: "Processing", variant: "secondary" },
+  ready: { label: "Ready", variant: "default" },
+  failed: { label: "Failed", variant: "destructive" },
+};
+
 const DocumentItem: React.FC<DocumentItemProps> = ({
   file,
   onView,
   onDelete,
   onChat,
+  onTrain,
+  disableButton,
 }) => {
   return (
     <Card
@@ -60,43 +70,63 @@ const DocumentItem: React.FC<DocumentItemProps> = ({
         {/* File Info Section */}
         <div className="flex flex-1 items-start gap-4 overflow-hidden">
           <div className="p-2 bg-muted rounded-md shrink-0">
-            {getIcon(file.type)}
+            {getIcon(file.filename)}
           </div>
 
           <div className="space-y-1 overflow-hidden">
-            <CustomTooltip title={file.name}>
+            <CustomTooltip title={file.filename}>
               <Typography
                 variant="p"
                 className="truncate max-w-[220px] font-medium cursor-default"
               >
-                {file.name}
+                {file.filename}
               </Typography>
             </CustomTooltip>
 
-            <CustomTooltip title={file.type}>
+            <CustomTooltip title={file.filetype}>
               <Typography
                 variant="muted"
                 className="truncate max-w-[220px] text-xs"
               >
-                {file.type}
+                {file.filetype}
               </Typography>
             </CustomTooltip>
 
             <Typography variant="muted" className="text-xs">
               {formatSize(file.size)}
             </Typography>
+
+            <Badge variant={statusMap[file.status].variant} className="text-xs">
+              {statusMap[file.status].label}
+            </Badge>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2 ml-auto sm:ml-0 sm:justify-end">
+        {/* Action Buttons (2 columns, 2 buttons per row) */}
+        <div className="grid grid-cols-2 gap-2 ml-auto sm:ml-0">
           <CustomTooltip title="View">
             <Button
               variant="outline"
               size="icon"
               onClick={() => onView?.(file)}
+              disabled={disableButton}
             >
               <Eye className="w-4 h-4" />
+            </Button>
+          </CustomTooltip>
+
+          <CustomTooltip title="Train">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => onTrain?.(file)}
+              disabled={
+                disableButton ||
+                file.status === "ready" ||
+                file.status === "processing"
+              }
+            >
+              <Brain className="w-4 h-4" />
             </Button>
           </CustomTooltip>
 
@@ -105,6 +135,7 @@ const DocumentItem: React.FC<DocumentItemProps> = ({
               variant="outline"
               size="icon"
               onClick={() => onChat?.(file)}
+              disabled={disableButton}
             >
               <MessageCircle className="w-4 h-4" />
             </Button>
@@ -115,6 +146,7 @@ const DocumentItem: React.FC<DocumentItemProps> = ({
               variant="outline"
               size="icon"
               onClick={() => onDelete?.(file)}
+              disabled={disableButton}
             >
               <Trash2 className="w-4 h-4 text-destructive" />
             </Button>
