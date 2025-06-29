@@ -57,9 +57,18 @@ const DocumentItems: React.FC = () => {
   };
 
   const handleView = async (file: IDocument) => {
-    const res = await getPreviewUrl(file._id);
-    if (res) {
-      window.open(res, "_blank");
+    try {
+      const res = await queryClient.fetchQuery({
+        queryKey: ["preview-url", file._id],
+        queryFn: () => getPreviewUrl(file._id),
+        staleTime: 1000 * 60 * 60,
+      });
+
+      if (res) {
+        window.open(res, "_blank");
+      }
+    } catch (err) {
+      console.error("Failed to fetch preview URL", err);
     }
   };
 
