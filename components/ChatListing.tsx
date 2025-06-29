@@ -21,7 +21,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteChat, getChats } from "@/services/apis";
 import Link from "next/link";
 import { PATHS } from "@/constants/paths";
-import { useCallback } from "react";
 
 export function ChatListing() {
   const { isMobile } = useSidebar();
