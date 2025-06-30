@@ -9,13 +9,18 @@ import { IMessage } from "@/types";
 import Conversations from "@/components/chats/Conversations";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/constants/paths";
+import { useQueryClient } from "@tanstack/react-query";
 
 const NewChats = () => {
+  const queryClient = useQueryClient();
+
   const router = useRouter();
   const { userId } = useAuth();
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleAsk = async (val: string) => {
     if (!val.trim()) return;
+    setIsLoading(true);
     setMessages(() => [
       {
         message_id: "init-message",
@@ -31,7 +36,7 @@ const NewChats = () => {
       chat_id: "",
       doc_ids: [],
     });
-
+    setIsLoading(false);
     setMessages((prevState) => [
       ...prevState,
       {
@@ -42,6 +47,7 @@ const NewChats = () => {
         timestamp: value.timestamp,
       },
     ]);
+    queryClient.invalidateQueries({ queryKey: ["chats", userId] });
 
     router.push(`${PATHS.RAG_CHATS}/${value.chat_id}`);
   };
@@ -60,10 +66,10 @@ const NewChats = () => {
   ) : (
     <div className="h-[calc(100vh-50px)] flex flex-col items-center pb-6">
       <div className="flex-1 min-h-0 w-full">
-        <Conversations messages={messages} />
+        <Conversations messages={messages} botLoading={isLoading} />
       </div>
       <div className="shrink-0 w-full flex justify-center px-5 md:px-10 lg:px-60">
-        <InputContainer onSubmit={(val) => console.log(val)} />
+        <InputContainer onSubmit={handleAsk} disabled={isLoading} />
       </div>
     </div>
   );

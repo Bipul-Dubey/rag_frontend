@@ -12,6 +12,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { IMessage } from "@/types";
 import { handleUniqueDocs } from "@/utils";
+import { Typography } from "@/components/common/Typography";
 
 type MessageItemProps = {
   message: IMessage;
@@ -122,15 +123,12 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
         {referenceLinks.length > 0 && (
           <div className="flex gap-2 flex-wrap">
             {referenceLinks.map((ref, idx) => (
-              <a
+              <Typography
                 key={idx}
-                href={"#"}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-xs text-muted-foreground underline hover:text-primary"
               >
                 {ref.doc_name || `Ref ${idx + 1}`}
-              </a>
+              </Typography>
             ))}
           </div>
         )}
